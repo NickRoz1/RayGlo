@@ -83,7 +83,7 @@ Vector3D rayTrace(Ray iRay, int depth, int E){
 			   double firstRandParameter = double(rand())/RAND_MAX;
 			   double secondRandParameter = double(rand())/RAND_MAX;
 			   
-			   Vector3D vectorLightPoint = (Spheres[i].center - pointOnSurface);//НЕ НОРМАЛИЗОВАН
+			   Vector3D vectorLightPoint = (Spheres[i].center - pointOnSurface);//ГЌГ… ГЌГЋГђГЊГЂГ‹Г€Г‡ГЋГ‚ГЂГЌ
 			   Vector3D localBasis1 = (fabs(vectorLightPoint.x)>0.1 ?
 									   Vector3D(1,0,0) : Vector3D(0,1,0))%vectorLightPoint;
 			   localBasis1.normalize();
@@ -92,7 +92,7 @@ Vector3D rayTrace(Ray iRay, int depth, int E){
 
 			   double cos_max = sqrt(1-(Spheres[i].radius*Spheres[i].radius)/
 									(vectorLightPoint*vectorLightPoint+1E-5));
-                // Для случая, когда точка на светильнике. Иначе может быть меньше нуля под корнем
+                // Г„Г«Гї Г±Г«ГіГ·Г Гї, ГЄГ®ГЈГ¤Г  ГІГ®Г·ГЄГ  Г­Г  Г±ГўГҐГІГЁГ«ГјГ­ГЁГЄГҐ. Г€Г­Г Г·ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г¬ГҐГ­ГјГёГҐ Г­ГіГ«Гї ГЇГ®Г¤ ГЄГ®Г°Г­ГҐГ¬
 			   double cos = 1 - firstRandParameter + cos_max*firstRandParameter;
 			   double sin = sqrt(1 - cos*cos);
 			   double eps = 2*M_PI*secondRandParameter;
@@ -120,10 +120,10 @@ Vector3D rayTrace(Ray iRay, int depth, int E){
 int main() {
 	std::srand(time(NULL));
 	Ray cam(Vector3D(),Vector3D(0,0,-1).normalize());
-	Vector3D cameraX(double(SCREEN_WIDTH)/SCREEN_HEIGHT,0,0); //Отношение ширина к высоте экрана
-	Vector3D cameraY((cam.direction % cameraX).normalize()*-1); //Y от минуса к плюсу, сверху вниз
+	Vector3D cameraX(double(SCREEN_WIDTH)/SCREEN_HEIGHT,0,0); //ГЋГІГ­Г®ГёГҐГ­ГЁГҐ ГёГЁГ°ГЁГ­Г  ГЄ ГўГ»Г±Г®ГІГҐ ГЅГЄГ°Г Г­Г 
+	Vector3D cameraY((cam.direction % cameraX).normalize()*-1); //Y Г®ГІ Г¬ГЁГ­ГіГ±Г  ГЄ ГЇГ«ГѕГ±Гі, Г±ГўГҐГ°ГµГі ГўГ­ГЁГ§
 	Vector3D *output = new Vector3D[SCREEN_HEIGHT*SCREEN_WIDTH];
-	// Нету матрицы перехода, необходимо задать x
+	// ГЌГҐГІГі Г¬Г ГІГ°ГЁГ¶Г» ГЇГҐГ°ГҐГµГ®Г¤Г , Г­ГҐГ®ГЎГµГ®Г¤ГЁГ¬Г® Г§Г Г¤Г ГІГј x
 
 	for(int i=0; i < SCREEN_HEIGHT; i++)
 	{
@@ -141,13 +141,13 @@ int main() {
 						1 - sqrt(2 - firstRandParameter);
 						double tempY = secondRandParameter < 1 ? sqrt(secondRandParameter) - 1 :
 						1 - sqrt(2 - secondRandParameter);
-						//Генерируем случайные значения, трансформируем их в диапозон от -1 до 1
+						//ГѓГҐГ­ГҐГ°ГЁГ°ГіГҐГ¬ Г±Г«ГіГ·Г Г©Г­Г»ГҐ Г§Г­Г Г·ГҐГ­ГЁГї, ГІГ°Г Г­Г±ГґГ®Г°Г¬ГЁГ°ГіГҐГ¬ ГЁГµ Гў Г¤ГЁГ ГЇГ®Г§Г®Г­ Г®ГІ -1 Г¤Г® 1
 						Vector3D dir = cameraX*(double((subPixJ + 0.5 + tempX)/2 + j)/SCREEN_WIDTH-0.5) +
 									   cameraY*(double((subPixI + 0.5 + tempY)/2 + i)/SCREEN_HEIGHT-0.5) +
 									   cam.direction;
 						Vector3D check = cameraY*(double((subPixI + 0.5 + tempY)/2 + i)/SCREEN_HEIGHT-0.5);
 						double checkInt = (double((subPixI + 0.5 + tempY)/2 + i)/SCREEN_HEIGHT-0.5);
-						dir.normalize();  // Возможно, неправильное отношение размера экрана к расстоянию до него
+						dir.normalize();  // Г‚Г®Г§Г¬Г®Г¦Г­Г®, Г­ГҐГЇГ°Г ГўГЁГ«ГјГ­Г®ГҐ Г®ГІГ­Г®ГёГҐГ­ГЁГҐ Г°Г Г§Г¬ГҐГ°Г  ГЅГЄГ°Г Г­Г  ГЄ Г°Г Г±Г±ГІГ®ГїГ­ГЁГѕ Г¤Г® Г­ГҐГЈГ®
 						if(i==123 && j ==123)
 						int b = 3;
 						Vector3D sampleRes = (rayTrace(Ray(cam.origin, dir),0,1) / double(SAMPLES));
