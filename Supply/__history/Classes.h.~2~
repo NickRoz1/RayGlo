@@ -1,0 +1,34 @@
+//---------------------------------------------------------------------------
+
+#ifndef ClassesH
+#define ClassesH
+//---------------------------------------------------------------------------
+
+class Vector3D{
+	public:
+		double x,y,z;
+		Vector3D(double xi, double yi, double zi) : x(xi), y(yi), z(zi) {};
+		friend Vector3D operator+(const Vector3D &a, const Vector3D &b);
+		friend Vector3D operator-(const Vector3D &a, const Vector3D &b);
+		friend double operator*(const Vector3D &a, const Vector3D &b); // dot product
+		friend Vector3D operator*(const Vector3D &a, const double &b);
+}
+
+Vector3D operator+(const Vector3D &a, const Vector3D &b){
+	Vector3D temp = Vector3D(0,0,0);
+	return temp; //Vector3D(a.x + b.x, a.y + b.y, a.z + b.z);
+}
+
+Vector3D Vector3D::operator-(const Vector3D &a, const Vector3D &b){
+	return Vector3D(a.x - b.x, a.y - b.y, a.z - b.z);
+}
+
+double Vector3D::operator*(const Vector3D &a, const Vector3D &b){
+	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+}
+
+Vector3D Vector3D::operator*(const Vector3D &a, const double &b){
+	return Vector3D(a.x*k, a.y*k, a.z*k);
+}
+
+#endif
